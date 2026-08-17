@@ -16,6 +16,7 @@ An end-to-end ELT Analytics Engineering pipeline that ingests, models, tests, an
 
 Raw JSON payloads are ingested from the Open Brewery DB API into a local DuckDB OLAP database and transformed through a three-layer Medallion Architecture using dbt Core.
 
+```text
 [ Open Brewery API ]
 │
 (Python Script)
@@ -29,7 +30,7 @@ Raw JSON payloads are ingested from the Open Brewery DB API into a local DuckDB 
 (dbt Marts)
 ├──► [ dim_breweries ] ────── Dimensional table with surrogate keys
 └──► [ fct_brewery_density ] ── Analytical aggregates by city & type
-
+```
 
 ---
 
