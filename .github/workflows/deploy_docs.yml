@@ -32,11 +32,11 @@ jobs:
 
       - name: Install dbt packages
         run: |
-          dbt deps
+          dbt deps --profiles-dir
 
       - name: Generate dbt Documentation
         run: |
-          dbt docs generate --target dev
+          dbt docs generate --target dev --profiles-dir
 
       - name: Deploy static docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
