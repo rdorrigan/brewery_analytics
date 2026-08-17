@@ -44,11 +44,44 @@ Raw JSON payloads are ingested from the Open Brewery DB API into a local DuckDB 
 
 ---
 
-## 📊 Sample Metrics Produced
+## 📊 Sample Metrics & Analytical Use Cases
 
-The dimensional model powers downstream reporting metrics, answering business questions such as:
-1. **Geographic Density:** Which US states contain the highest ratio of microbreweries vs. brewpubs?
-2. **Digital Presence Rate:** What percentage of operating breweries maintain an active web URL per region?
+The dimensional model powers business intelligence reporting, operational diagnostics, and geographic market analysis. Below are two core analytical frameworks implemented in `fct_brewery_density`:
+
+### 1. Market Penetration & Geographic Density Analysis
+* **Business Objective:** Evaluate state-level market saturation and identify key structural shifts in brewery distribution (e.g., craft microbreweries vs. full-service brewpubs).
+* **Analytical Logic:** Computes the ratio of localized production facilities (`micro`) against hospitality-first venues (`brewpub`) per state, filtering out non-traditional entities (`closed`, `planning`).
+* **Core Output Metric:**
+  $$\text{Microbrewery Ratio} = \frac{\sum \text{Microbreweries}}{\sum \text{Brewpubs}}$$
+* **Key Finding Example:** Highlights regions where market expansion is heavily driven by direct-to-consumer taprooms versus wholesale contract manufacturing.
+
+---
+
+### 2. Digital Presence & Contactability Coverage
+* **Business Objective:** Measure the digital maturity and reachability of regional brewery networks to target B2B marketing campaigns and sales ops outreach.
+* **Analytical Logic:** Aggregates valid, non-null `website_url` and `phone` attributes across state and national groupings to produce a normalized coverage score.
+* **Core Output Metric:**
+  $$\text{Digital Presence Rate (\%)} = \left( \frac{\text{Count of Breweries with Valid URL}}{\text{Total Active Breweries}} \right) \times 100$$
+* **Key Finding Example:** Quantifies digital contactability gaps across urban vs. rural markets, providing actionable lead-scoring data for regional distributors.
+
+---
+
+### 💻 Sample Downstream Query
+
+```sql
+-- Querying fct_brewery_density for top 5 states by microbrewery ratio
+SELECT
+    state,
+    total_breweries,
+    micro_count,
+    brewpub_count,
+    ROUND(micro_count::FLOAT / NULLIF(brewpub_count, 0), 2) AS micro_to_brewpub_ratio,
+    ROUND(pct_with_website, 1) AS digital_presence_pct
+FROM {{ ref('fct_brewery_density') }}
+WHERE total_breweries >= 10
+ORDER BY micro_to_brewpub_ratio DESC
+LIMIT 5;
+```
 
 ---
 
