@@ -8,7 +8,7 @@ Markdown
 
 An end-to-end ELT Analytics Engineering pipeline that ingests, models, tests, and documents global brewery distribution data using Python, DuckDB, and dbt Core.
 
-🔗 **[View Live Interactive dbt Docs & Lineage DAG Graph](https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME/)**
+🔗 **[View Live Interactive dbt Docs & Lineage DAG Graph](https://rdorrigan.github.io/brewery_analytics/)**
 
 ---
 
@@ -61,7 +61,7 @@ The dimensional model powers downstream reporting metrics, answering business qu
 ### Quickstart
 ```bash
 # 1. Clone repo
-git clone [https://github.com/YOUR-USERNAME/brewery_analytics.git](https://github.com/YOUR-USERNAME/brewery_analytics.git)
+git clone [https://github.com/rdorrigan/brewery_analytics.git](https://github.com/rdorrigan/brewery_analytics.git)
 cd brewery_analytics
 
 # 2. Install dependencies
