@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: raw
+    database: brewery
+    schema: raw
+    tables:
+      - name: raw_breweries
+        description: "Raw JSON payload extracted from Open Brewery DB API"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
