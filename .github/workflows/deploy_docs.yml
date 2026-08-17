@@ -30,13 +30,28 @@ jobs:
         run: |
           python ingest.py
 
+      # --- NEW STEP: Create .dbt directory and profiles.yml ---
+      - name: Setup dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat <<EOF > ~/.dbt/profiles.yml
+          brewery_analytics:
+            target: dev
+            outputs:
+              dev:
+                type: duckdb
+                path: brewery.duckdb
+                database: brewery
+                threads: 4
+          EOF
+
       - name: Install dbt packages
         run: |
-          dbt deps --profiles-dir
+          dbt deps
 
       - name: Generate dbt Documentation
         run: |
-          dbt docs generate --target dev --profiles-dir
+          dbt docs generate --target dev
 
       - name: Deploy static docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
